@@ -7,9 +7,7 @@
 const assert = require('assert');
 const http = require('http');
 
-const server = require('./NodeServer');
-
-
+const server = require('./nodeserver.js');
 
 describe('Node Server', () => {
     it('should return "key not passed" if key is not passed', (done) => {
@@ -28,7 +26,35 @@ describe('Node Server', () => {
 
     //add test to check get when key is equal to world
 
-    //add test to check validatephoneNumber
+    it('should return "hello world" if key is equal to world', (done) => {
+        http
+        .get('http://localhost:3000/get?key=world' , (res) => {
+            let data = '';
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                assert.equal(data, 'hello world');
+                done();
+            });
+        });
+    });
+
+    //add a test to validate a spanish phone number. write the test so that it validates two numbers
+    //one valid spanish phone number and one invalid spanish phone number
+    it('should return "valid spanish phone number" if phone number is valid', (done) => {
+        http
+        .get('http://localhost:3000/validatephonenumber?phoneNumber=%2B34666777888' , (res) => {
+            let data = '';
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                assert.equal(data, 'valid');
+                done();
+            });
+        });
+    });
 
     //write test to validate validateSpanishDNI
    
@@ -37,7 +63,5 @@ describe('Node Server', () => {
 
 
    //write test for daysBetweenDates
-
-
 
 });
